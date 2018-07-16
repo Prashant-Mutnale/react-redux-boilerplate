@@ -1,16 +1,67 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {connect} from 'react-redux'
-import {fetchPosts} from '../redux/actions/postActions.js';
+import {repairlist} from '../redux/actions/postActions.js';
+import {repairphone} from '../redux/actions/postActions'
 
 class Main extends Component {
+    constructor(props){
+        super(props)
+        this.changapage = this.changapage.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+        this.updatedchange = this.updatedchange.bind(this)
+        this.state={
+            email: '',
+            password: ''
+        }
+    }
+    updatedchange(e){
+        // let data = e.target.name;
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
+    }
     componentWillMount(){
-        this.props.fetchPosts()
+        this.props.repairlist()
+    }
+
+    changapage(repairphone, id){
+        console.log("iddata",id)
+        this.props.history.push(repairphone);
+    }
+    onSubmit(){
+        console.log("called")
     }
   render() {
+      console.log("datagot",this.props.postdata)
+      console.log(this.state.email)
+      console.log(this.state.password)
     return (
       <div className="App">
             <div>Main component</div>
+            {
+                this.props.postdata!=="" && this.props.postdata!==undefined?
+               this.props.postdata.map((items, i)=>{
+                   console.log(items)
+                    return(
+                        <ul key={i}>
+                            <li><a  onClick={()=>this.changapage("/repairphone/"+items.id,items.id)}>{items.name}</a></li>
+                        </ul>
+                    )
+                })
+                : null
+            }
+           <form onSubmit={this.onSubmit()}>
+            <label>
+                Name:
+                <input type="email" name="email" value={this.state.email} onChange={e =>this.updatedchange(e)}/><br/>
+                Password:  <input type="password" name="password" value={this.state.password} onChange={e=>this.updatedchange(e)}/>
+                
+            </label>
+            <input type="submit" value="Submit" />
+        </form>
+            {/* <a onClick={()=>this.changapage("/repairphone")}>Clickme</a> */}
+            
       </div>
     );
   }
@@ -19,8 +70,8 @@ class Main extends Component {
 function mapStateToProps(state) {
     console.log(state)
         return{
-            postdata : state.posts.items
+            postdata : state.posts.items.data
         }
  }
 
-export default connect(mapStateToProps, {fetchPosts})(Main);
+export default connect(mapStateToProps, {repairlist, repairphone})(Main);
