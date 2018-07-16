@@ -1,4 +1,4 @@
-import {REPAIR_LIST, REPAIR_PHONE, MODEL_PHONE, GET_MODEL,GET_REPAIR} from '../actions/types'
+import {REPAIR_LIST, REPAIR_PHONE, MODEL_PHONE, GET_MODEL,GET_REPAIR, POST_REQUEST} from '../actions/types'
 
 const initialState = {
     items :[],
@@ -6,7 +6,7 @@ const initialState = {
     modalItems: [],
     getmodelitems: [],
     infosignup : {},
-    getrepairdetails: []
+    getrepairdetails: [],
 }
 
 export default function (state = initialState, action){
@@ -46,6 +46,13 @@ export default function (state = initialState, action){
                   return{
                     ...state,
                     getrepairdetails: action.payload
+                  }
+                break;
+                case POST_REQUEST :
+                console.log("getpostrequest")
+                  return{
+                    ...state,
+                    infosignup: action.payload
                   }
                 
             default : return state;

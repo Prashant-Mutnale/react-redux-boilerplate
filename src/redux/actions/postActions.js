@@ -1,4 +1,4 @@
-import {REPAIR_LIST, REPAIR_PHONE, MODEL_PHONE, GET_MODEL, GET_REPAIR} from './types'
+import {REPAIR_LIST, REPAIR_PHONE, MODEL_PHONE, GET_MODEL, GET_REPAIR, POST_REQUEST} from './types'
 export const repairlist = () => dispatch =>{
     console.log("got")
     fetch("http://35.154.198.64/gprapi/repair/getRepairsList")
@@ -73,5 +73,27 @@ export const getrepairdetails = (iddata, manafactureid,iddevice, repairid) => di
             payload: getrepair
         })
     
+    )
+}
+
+export const create_posts = (postdata) => dispatch =>{
+    console.log("gotpost", postdata)
+    fetch('https://reqres.in/api/register', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postdata)
+      })
+      .then(res=>res.json())
+      .then((Response)=>{
+          console.log("responesdid",Response)
+      })
+      .then(post => 
+        dispatch({
+            type: POST_REQUEST,
+            payload: post
+        })
     )
 }

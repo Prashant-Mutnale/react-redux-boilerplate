@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../App.css';
 import {connect} from 'react-redux'
 import {repairlist} from '../redux/actions/postActions.js';
-import {repairphone} from '../redux/actions/postActions'
+import {repairphone} from '../redux/actions/postActions';
+import {create_posts} from '../redux/actions/postActions'
 
 class Main extends Component {
     constructor(props){
@@ -29,8 +30,17 @@ class Main extends Component {
         console.log("iddata",id)
         this.props.history.push(repairphone);
     }
-    onSubmit(){
+    onSubmit(e){
+        e.preventDefault();
         console.log("called")
+        console.log("emaildata",this.state.email)
+        console.log("passworddata",this.state.password)
+        const data = {
+            email: this.state.email,
+            password: this.state.password
+    }
+    this.props.create_posts(data)
+
     }
   render() {
       console.log("datagot",this.props.postdata)
@@ -51,7 +61,7 @@ class Main extends Component {
                 })
                 : null
             }
-           <form onSubmit={this.onSubmit()}>
+           <form onSubmit={(e)=>this.onSubmit(e)}>
             <label>
                 Name:
                 <input type="email" name="email" value={this.state.email} onChange={e =>this.updatedchange(e)}/><br/>
@@ -74,4 +84,4 @@ function mapStateToProps(state) {
         }
  }
 
-export default connect(mapStateToProps, {repairlist, repairphone})(Main);
+export default connect(mapStateToProps, {repairlist, repairphone, create_posts})(Main);
